@@ -38,6 +38,8 @@ require_once ('db.php');
             <label for="exampleInputEmail1" class="form-label">Your login</label>
             <input type="text" class="form-control" name="login">
         </div>
+
+
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
             <input type="password" class="form-control" name="password">
@@ -46,15 +48,7 @@ require_once ('db.php');
         <button type="submit" class="btn btn-primary">Submit</button>
         <hr>
 
-
-       <hr>
-        <br>
-
     </form>
-
-    <hr><hr>
-    <br>
-
 </div>
 
 </body>
