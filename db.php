@@ -27,11 +27,13 @@ function getMess($con):array
     $sql = "SELECT * FROM users";
     $result = $con->query($sql);
 
-    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+    while ($row = $result->fetch()) {
         $data[] = $row;
     }
     return $data;
 }
-var_dump((getMess($con))); die();
 
+echo '<pre>';
+var_dump(getMess(getPDO()));
+echo '</pre>';
 //phpinfo();

@@ -9,12 +9,13 @@ use forum;
     #     constraint users_pk
     #         primary key (id)
     # );
-create table posts
-(
-    id      int auto_increment,
-    text    text      not null,
-    date    timestamp null,
-    user_id int       not null,
-    constraint posts_pk
-        primary key (id)
-);
+# create table posts
+# (
+#     id      int auto_increment,
+#     text    text      not null,
+#     date    timestamp null,
+#     user_id int       not null,
+#     constraint posts_pk
+#         primary key (id)
+# );
+ insert into users (login, password, admin) value (vadim, qwe123, true);
