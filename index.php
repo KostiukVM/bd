@@ -1,15 +1,16 @@
 <?php
 require_once ('function.php');
 $con = getPDO();
+// add messages
 if (!empty($_POST['login']) && (!empty($_POST['password'])) && (!empty($_POST['sendMessage'])))
 {
     addNewMessage($con, htmlspecialchars($_POST['login']),htmlspecialchars($_POST['sendMessage']));
 }
-
+// delete messages
 if (!empty($_GET['delete_message'])){
     deleteMessage($con, $_GET['delete_message']);
 }
-
+// show messages
 $messages = getMess($con);
 ?>
 <!DOCTYPE html>
@@ -50,7 +51,7 @@ $messages = getMess($con);
             <label for="exampleInputPassword1" class="form-label">Password</label>
             <input type="password" class="form-control" name="password" required>
         </div>
-<!--        <button type="submit" class="btn btn-primary">submit</button>-->
+
         <!--        registration verification-->
         <?php
         if (!empty($_POST['login']) && (!empty($_POST['password'])) && (!empty($_POST['sendMessage']))) {
@@ -85,6 +86,7 @@ $messages = getMess($con);
                             <?= $message['date'] ?> :
                             <i><?= $message['text'] ?></i>
                             <?php
+                            // check for admin
                             if (!empty($_POST['login'])) {
                                 if ((admin($con, $_POST['login'], $_POST['password'])) == true) {
                             ?>
