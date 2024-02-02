@@ -3,8 +3,8 @@ function getPDO():PDO
 {
     $host = 'localhost';
     $username = 'root';
-    $password = 'root';
-    $dbname = 'forum';
+    $password = '';
+    $dbname = 'forums';
 
     $con = new PDO ("mysql:host=$host;dbname=$dbname", $username, $password);
     $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -25,7 +25,7 @@ function getMess($con):array
 }
 function addNewMessage($con, $login, $message)
 {
-    $sql = "INSERT INTO posts (name, text) VALUES (\"$login\", \"$message\") ";
+    $sql = "INSERT INTO posts (login, text) VALUES ($login, $message)";
     if (!$con->query($sql)) {
         echo "sumthing went wrong";
     }
@@ -68,5 +68,11 @@ function admin($con, $login, $password)
         }
     }
 }
+
+function redirect ($url){
+    header(('Location: '. $url));
+    die();
+}
+
 $con = null;
 
