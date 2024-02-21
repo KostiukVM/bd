@@ -5,7 +5,7 @@ use forum;
     #     id       integer auto_increment,
     #     login    varchar(32)        not null,
     #     password varchar(255)       not null,
-    #     admin    bool varchar(255),
+    #     admin    varchar(255),
     #     constraint users_pk
     #         primary key (id)
     # );

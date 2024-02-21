@@ -4,12 +4,17 @@ function getPDO():PDO
     $host = 'localhost';
     $username = 'root';
     $password = 'root';
-    $dbname = 'forum';
+    $dbname = 'chat';
 
-    $con = new PDO ("mysql:host=$host;dbname=$dbname", $username, $password);
-    $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    return $con;
+    try {
+        $con = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $con;
+    } catch (PDOException $e) {
+        // Обробка помилок PDO
+        echo "Помилка підключення до бази даних: " . $e->getMessage();
+        die(); // Завершити виконання скрипта
+    }
 }
 
 function getMess($con):array
@@ -25,10 +30,14 @@ function getMess($con):array
 }
 function addNewMessage($con, $login, $message)
 {
-    $sql = "INSERT INTO posts (name, text) VALUES (\"$login\", \"$message\") ";
-    if (!$con->query($sql)) {
-        echo "sumthing went wrong";
-    }
+    $sql = $con->prepare ("INSERT INTO posts (login, text) VALUES (login = :login, text = :message) ");
+    $sql->bindParam(':login', $login);
+    $sql->bindParam(':text', $message);
+    $sql->execute();
+
+    $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+echo $result;
+    return $result;
 }
 
 
