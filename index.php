@@ -53,12 +53,16 @@ $con = getPDO();
         <?php
         if (!empty($_POST['login']) && (!empty($_POST['password']))) {
 
-            if (!userExists($con, $_POST['login'], $_POST['password'])) {
+            if (userExists($con, $_POST['login'], $_POST['password'])) {
 
-                die("User: " . $_POST['login'] . " no exist ;(");
-                //add user
+                $login = $_POST['login'];
+                $password = $_POST['password'];
+                $_SESSION['login'] = $login;
+                $_SESSION['password'] = $password;
+
             } else {
-                $_SESSION['login'] = $_POST['login'];
+
+                die("User: " . $_POST['login'] . " no exist ;( ");
             }
 
         }
@@ -66,6 +70,7 @@ $con = getPDO();
 
         <?php
         } else {
+            //header('forum.php');
             echo ' <script>window.location = "forum.php";</script>';
 
         }

@@ -1,4 +1,5 @@
 <?php
+
 function getPDO():PDO
 {
     $host = 'localhost';
@@ -20,7 +21,7 @@ function getPDO():PDO
 function getMess($con):array
 {
     $data =[];
-    $sql = "SELECT * FROM posts";
+    $sql = "SELECT * FROM chat.posts";
     $result = $con->query($sql);
 
     while ($row = $result->fetch()) {
@@ -30,40 +31,41 @@ function getMess($con):array
 }
 function addNewMessage($con, $login, $message)
 {
-    $sql = $con->prepare ("INSERT INTO posts (login, text) VALUES (login = :login, text = :message) ");
-    $sql->bindParam(':login', $login);
-    $sql->bindParam(':text', $message);
-    $sql->execute();
+    $sql ="INSERT INTO chat.posts (login, text) VALUES (:login, :text)";
+    $result = $con->prepare($sql);
+    $result->bindParam(':login', $login);
+    $result->bindParam(':text', $message);
+    $result->execute();
 
-    $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-echo $result;
     return $result;
 }
 
 
 function userExists($con, $login, $password)
 {
-    $sql = $con->prepare("SELECT * FROM users WHERE login = :login AND password = :password");
+    $sql = $con->prepare("SELECT * FROM chat.users WHERE login = :login AND password = :password");
     $sql->bindParam(':login', $login);
     $sql->bindParam(':password', $password);
     $sql->execute();
 
     // Отримуємо результат запиту
+
     $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 
     return $result;
+
 }
 
 function deleteMessage($con, $id)
 {
-    $sql = "DELETE FROM posts WHERE id=". $id;
+    $sql = "DELETE FROM chat.posts WHERE id=". $id;
     if (!$con->query($sql)) {
         echo "Oh, Noo(";
     }
 }
 function admin($con, $login, $password)
 {
-    $sql = $con->prepare("SELECT * FROM users WHERE login = :login AND password = :password");
+    $sql = $con->prepare("SELECT * FROM chat.users WHERE login = :login AND password = :password");
     $sql->bindParam(':login', $login);
     $sql->bindParam(':password', $password);
     $sql->execute();

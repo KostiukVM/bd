@@ -1,17 +1,22 @@
 <?php
+session_start();
 require_once('function.php');
 $con = getPDO();
-$messages = getMess($con);
 
-if (!empty($_SESSION['login']) && (!empty($_POST['sendMessage']))) {
-    addNewMessage($con, ($_SESSION['login']), htmlspecialchars($_POST['sendMessage']));
+
+if (!empty($_POST['sendMessage'])) {
+    addNewMessage($con, ($_SESSION['login']), ($_POST['sendMessage']));
 }
 
 if (!empty($_GET['delete_message'])) {
     deleteMessage($con, $_GET['delete_message']);
 }
 
-if (!isset($_SESSION['login'])) {
+$messages = getMess($con);
+
+if (isset($_SESSION['login'])) {
+echo $_SESSION['login'];
+echo "pas = " . $_SESSION['password'];
 ?>
 
 <!DOCTYPE html>
@@ -57,8 +62,8 @@ if (!isset($_SESSION['login'])) {
                         <?= $message['date'] ?> :
                         <i><?= $message['text'] ?></i>
                         <?php
-                        if (!empty($_POST['login'])) {
-                            if ((admin($con, $_POST['login'], $_POST['password'])) == true) {
+                        if (!empty($_SESSION['login'])) {
+                            if ((admin($con, $_SESSION['login'], $_SESSION['password'])) == true) {
                                 ?>
                                 <a href="?delete_message=<?= $message['id'] ?>">delete</a>
                             <?php }
@@ -71,13 +76,13 @@ if (!isset($_SESSION['login'])) {
 
         <hr>
         <hr>
-        <div class="mb-3">
+        <in class="mb-3">
             <label for="exampleInputSend" class="form-label">Messages</label>
             <input type="text" class="form-control" name="sendMessage" required>
 
-        </div>
-        <button type="submit" class="btn btn-primary">Send</button>
+        <button type="submit" class="btn btn-primary" name="Send">Send</button>
     </div>
+
 </form>
 <?php
 }
