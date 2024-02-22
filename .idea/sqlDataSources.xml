@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="1e15b0fe-9977-464c-8cf4-73390f80f9b0" name="forum2 Mapping">
+      <data-sources db="944676c9-7eff-46b8-832b-5a732abb5535" ddl="b7525954-851f-48d9-aa19-3693fbd27e53" />
+    </mapping>
+  </component>
+</project>

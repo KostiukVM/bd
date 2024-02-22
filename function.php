@@ -1,21 +1,27 @@
 <?php
+
 function getPDO():PDO
 {
     $host = 'localhost';
     $username = 'root';
     $password = 'root';
-    $dbname = 'forum';
+    $dbname = 'chat';
 
-    $con = new PDO ("mysql:host=$host;dbname=$dbname", $username, $password);
-    $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    return $con;
+    try {
+        $con = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $con;
+    } catch (PDOException $e) {
+        // Обробка помилок PDO
+        echo "Помилка підключення до бази даних: " . $e->getMessage();
+        die(); // Завершити виконання скрипта
+    }
 }
 
 function getMess($con):array
 {
     $data =[];
-    $sql = "SELECT * FROM posts";
+    $sql = "SELECT * FROM chat.posts";
     $result = $con->query($sql);
 
     while ($row = $result->fetch()) {
@@ -25,36 +31,41 @@ function getMess($con):array
 }
 function addNewMessage($con, $login, $message)
 {
-    $sql = "INSERT INTO posts (name, text) VALUES (\"$login\", \"$message\") ";
-    if (!$con->query($sql)) {
-        echo "sumthing went wrong";
-    }
+    $sql ="INSERT INTO chat.posts (login, text) VALUES (:login, :text)";
+    $result = $con->prepare($sql);
+    $result->bindParam(':login', $login);
+    $result->bindParam(':text', $message);
+    $result->execute();
+
+    return $result;
 }
 
 
 function userExists($con, $login, $password)
 {
-    $sql = $con->prepare("SELECT * FROM users WHERE login = :login AND password = :password");
+    $sql = $con->prepare("SELECT * FROM chat.users WHERE login = :login AND password = :password");
     $sql->bindParam(':login', $login);
     $sql->bindParam(':password', $password);
     $sql->execute();
 
     // Отримуємо результат запиту
+
     $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 
     return $result;
+
 }
 
 function deleteMessage($con, $id)
 {
-    $sql = "DELETE FROM posts WHERE id=". $id;
+    $sql = "DELETE FROM chat.posts WHERE id=". $id;
     if (!$con->query($sql)) {
         echo "Oh, Noo(";
     }
 }
 function admin($con, $login, $password)
 {
-    $sql = $con->prepare("SELECT * FROM users WHERE login = :login AND password = :password");
+    $sql = $con->prepare("SELECT * FROM chat.users WHERE login = :login AND password = :password");
     $sql->bindParam(':login', $login);
     $sql->bindParam(':password', $password);
     $sql->execute();
