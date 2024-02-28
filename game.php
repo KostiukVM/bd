@@ -5,14 +5,14 @@ class Hero
     protected string $name;
     protected int|float $health;
     protected int|float $armor;
-    protected string $weapon;
+    protected Weapon $weapon;
 
-    public function __construct($name, $health, $armor, $weapon)
+    public function __construct($name, $health, $armor,Weapon $weapon)
     {
         $this->name = $name;
         $this->health = $health;
         $this->armor = $armor;
-        $this->weapon = $weapon;
+        $this->weapon =$weapon;
     }
 
     public function getName()
@@ -30,56 +30,56 @@ class Hero
     }
     public function getWeapon()
     {
-        return $this->weapon;
+        return $this->weapon->getDamage();
     }
-    public function damage($damage)
+    public function damageHealth($damageHealth)
     {
-        $this->health -=$damage;
+        $this->health -= $damageHealth;
     }
 }
 class Weapon
 {
-    const SWORD_DAMAGE      = 55;           // меч
-    const STAFF_DAMAGE      = 50;           // посох
-    const BOW_DAMAGE        = 70;           // лук
-    const CROSSBOW_DAMAGE   = 85;           // арбалет
-    const GUN_DAMAGE        = 100;          // пістолет
+    protected int|float $damage;
+
+    public function __construct($damage)
+    {
+        $this->damage = $damage;
+    }
+
+    public function getDamage()
+    {
+        return $this->damage;
+    }
 }
 
 
 class Warrior extends Hero
 {
-    const DEFAULT_HEALTH = 500;
-    const DEFAULT_ARMOR = 20;
-    const DEFAULT_WEAPON = Weapon::SWORD_DAMAGE;
-    public function __construct()
-    {
 
-        parent::__construct('Warrior',self::DEFAULT_HEALTH, self::DEFAULT_ARMOR, self::DEFAULT_WEAPON);
+    public function __construct($name, $health, $armor, Weapon $weapon)
+    {
+        parent::__construct($name, $health, $armor, $weapon);
+
     }
 }
 
 class Mage extends Hero
 {
-    const DEFAULT_HEALTH = 400;
-    const DEFAULT_ARMOR = 15;
-    const DEFAULT_WEAPON = Weapon::STAFF_DAMAGE;
-    public function __construct()
-    {
 
-        parent::__construct('Mage',self::DEFAULT_HEALTH, self::DEFAULT_ARMOR, self::DEFAULT_WEAPON);
+    public function __construct($name, $health, $armor, Weapon $weapon)
+    {
+        parent::__construct($name, $health, $armor, $weapon);
+
     }
 }
 
 class Archer extends Hero
 {
-    const DEFAULT_HEALTH = 350;
-    const DEFAULT_ARMOR = 10;
-    const DEFAULT_WEAPON = Weapon::BOW_DAMAGE;
-    public function __construct()
-    {
 
-        parent::__construct('Archer',self::DEFAULT_HEALTH, self::DEFAULT_ARMOR, self::DEFAULT_WEAPON);
+    public function __construct($name, $health, $armor, Weapon $weapon)
+    {
+        parent::__construct($name, $health, $armor, $weapon);
+
     }
 }
 
@@ -110,23 +110,26 @@ class Battle
         $damage_hero1 = $hero1->getWeapon() - $hero2->getArmor();
         $damage_hero2 = $hero2->getWeapon() - $hero1->getArmor();
 
-        $health1hero = $hero1->getHealth() - $damage_hero2;
-        $health2hero = $hero2->getHealth() - $damage_hero1;
-
         echo get_class($hero1) . ' атакує ' . get_class($hero2) . ' і наносить ' . $damage_hero1 . ' урона.' . PHP_EOL;
         echo get_class($hero2) . ' атакує ' . get_class($hero1) . ' і наносить ' . $damage_hero2 . ' урона.' . PHP_EOL;
 
-        echo get_class($hero1) . ' має: ' . $health1hero . ' здоров\'я ' . PHP_EOL;
-        echo get_class($hero2) . ' має: ' . $health2hero . ' здоров\'я ' . PHP_EOL;
+        echo get_class($hero1) . ' має: ' . $hero1->getHealth() . ' здоров\'я ' . PHP_EOL;
+        echo get_class($hero2) . ' має: ' . $hero2->getHealth() . ' здоров\'я ' . PHP_EOL;
 
-        $hero1->damage($damage_hero2);
-        $hero2->damage($damage_hero1);
+        $hero1->damageHealth($damage_hero2);
+        $hero2->damageHealth($damage_hero1);
     }
 }
 
-$warrior = new Warrior();
-$mage = new Mage();
-$archer = new Archer();
 
+$sword = new Weapon(55);
+$staff = new Weapon(50);
+$bow = new Weapon(70);
+$crossbow = new Weapon(85);
+$gun = new Weapon(100);
+
+
+$warrior = new Warrior("warrior", 1000, 50, $sword);
+$mage = new Mage("mage", 1000, 50, $staff);
 
 $winner = Battle::fight($warrior, $mage);
