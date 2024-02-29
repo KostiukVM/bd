@@ -1,0 +1,17 @@
+{
+  "name": "Models/course",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Intel",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {"Models\\": "Models/"}
+  }
+}
