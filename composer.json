@@ -1,5 +1,5 @@
 {
-  "name": "Models/course",
+  "name": "models/bd",
   "description": "description",
   "minimum-stability": "stable",
   "license": "proprietary",
@@ -9,9 +9,11 @@
       "email": "email@example.com"
     }
   ],
-  "require": {
-  },
+
   "autoload": {
     "psr-4": {"Models\\": "Models/"}
+  },
+  "require": {
+    "larapack/dd": "^1.1"
   }
 }

@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class Hero
+abstract class Hero implements HeroModel
 {
     protected string $name;
     protected int|float $health;
@@ -17,24 +17,22 @@ class Hero
         $this->weapon =$weapon;
     }
 
-    public function getName()
-    {
-        return $this->name;
-    }
-    public function getHealth()
+   abstract public function getName():string;
+
+    public function getHealth(): float|int
     {
         return $this->health;
     }
 
-    public function getArmor()
+    public function getArmor(): float|int
     {
         return $this->armor;
     }
-    public function getWeapon()
+    public function getWeapon(): float|int
     {
         return $this->weapon->getDamage();
     }
-    public function damageHealth($damageHealth)
+    public function damageHealth($damageHealth): void
     {
         $this->health -= $damageHealth;
     }
