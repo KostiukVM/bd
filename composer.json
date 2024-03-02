@@ -1,0 +1,19 @@
+{
+  "name": "models/bd",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Intel",
+      "email": "email@example.com"
+    }
+  ],
+
+  "autoload": {
+    "psr-4": {"Models\\": "Models/"}
+  },
+  "require": {
+    "larapack/dd": "^1.1"
+  }
+}
