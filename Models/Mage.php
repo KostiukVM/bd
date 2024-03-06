@@ -9,9 +9,10 @@ class Mage extends Hero
     {
         return $this->name;
     }
-    public function __construct($name, $health, $armor, Weapon $weapon)
+
+    public function __construct($name, $health, $armor)
     {
-        parent::__construct($name, $health, $armor, $weapon);
+        parent::__construct($name, $health, $armor);
 
     }
 }

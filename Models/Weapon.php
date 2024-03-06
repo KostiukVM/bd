@@ -4,14 +4,14 @@ namespace Models;
 
 class Weapon
 {
-    protected int|float $damage;
+    protected $damage;
 
     public function __construct($damage)
     {
         $this->damage = $damage;
     }
 
-    public function getDamage(): float|int
+    public function getDamage()
     {
         return $this->damage;
     }

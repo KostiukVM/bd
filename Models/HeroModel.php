@@ -9,6 +9,4 @@ interface HeroModel
     public function getHealth();
 
     public function getArmor();
-
-    public function getWeapon();
 }

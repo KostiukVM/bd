@@ -2,38 +2,49 @@
 
 namespace Models;
 
+
 abstract class Hero implements HeroModel
 {
     protected string $name;
-    protected int|float $health;
-    protected int|float $armor;
-    protected Weapon $weapon;
+    protected int $health;
+    protected int $armor;
+    protected ?Weapon $weapon = null;
 
-    public function __construct($name, $health, $armor,Weapon $weapon)
+    public function __construct(string $name, int $health, int $armor)
     {
         $this->name = $name;
         $this->health = $health;
         $this->armor = $armor;
-        $this->weapon =$weapon;
     }
 
-   abstract public function getName():string;
+    abstract public function getName(): string;
 
-    public function getHealth(): float|int
+    public function getHealth(): int
     {
         return $this->health;
     }
 
-    public function getArmor(): float|int
+    public function setWeapon($weapon): void
+    {
+        if ($weapon instanceof Weapon) {
+            $this->weapon = $weapon;
+        } else {
+            throw new \InvalidArgumentException('Invalid weapon type.');
+        }
+    }
+
+    public function getArmor(): int
     {
         return $this->armor;
     }
-    public function getWeapon(): float|int
+
+    public function getWeaponDamage(): ?int
     {
-        return $this->weapon->getDamage();
+        return $this->weapon ? $this->weapon->getDamage() : null;
     }
-    public function damageHealth($damageHealth): void
+
+    public function damageHealth(int $damage): void
     {
-        $this->health -= $damageHealth;
+        $this->health -= $damage;
     }
 }

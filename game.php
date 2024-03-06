@@ -3,20 +3,25 @@
 require __DIR__ . '/vendor/autoload.php';
 
 use Models\Battle;
+use Models\CreateHero;
 use Models\Mage;
 use Models\Warrior;
 use Models\Weapon;
 
 
 
-$sword = new Weapon(150);
+$sword = new Weapon(180);
 $staff = new Weapon(170);
 $bow = new Weapon(200);
 $crossbow = new Weapon(230);
 $gun = new Weapon(250);
 
 
-$warrior = new Warrior("warrior", 1000, 10, $sword);
-$mage = new Mage("mage", 1000, 10, $staff);
+$warriorWithSword = CreateHero::createHero('warrior');
+$mageWithStaff = CreateHero::createHero('mage');
 
-$winner = Battle::fight($warrior, $mage);
+
+$mageWithStaff->setWeapon($staff);
+$warriorWithSword->setWeapon($sword);
+
+Battle::fight($warriorWithSword, $mageWithStaff);
