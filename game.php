@@ -4,8 +4,6 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Models\Battle;
 use Models\CreateHero;
-use Models\Mage;
-use Models\Warrior;
 use Models\Weapon;
 
 
